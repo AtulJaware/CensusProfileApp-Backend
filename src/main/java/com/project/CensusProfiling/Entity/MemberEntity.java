@@ -3,49 +3,58 @@ package com.project.CensusProfiling.Entity;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 
 @Entity
 @Table(name="member_data")
 public class MemberEntity {
-	
 	@Id
-//	@SequenceGenerator(name="USER_SEQ_GEN", sequenceName="USER_SEQ_GEN", allocationSize=1)
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_SEQ_GEN")
-	@Min(1)
+	@GeneratedValue
+	@Column(name="id")
 	private int id;
 	
 	@Size(min = 1, max = 32,message="firstName length cannot be more than 32")
 	@NotNull(message = "firstName is mandatory")
+	@Column(name="firstName")
 	private String firstName;
 	
 	@Size(min = 1, max = 32,message="lastName length cannot be more than 32")
 	@NotNull(message = "lastName is mandatory")
+	@Column(name="lastName")
 	private String lastName;
 	
+	@Past
 	@NotNull(message = "DOB is mandatory")
+	@Column(name="DOB")
 	private LocalDate DOB;
 	
 	@NotNull(message = "gender is mandatory")
+	@Column(name="gender")
 	private String gender;
 	
 	@NotNull(message = "relationShip is mandatory")
+	@Column(name="relationShip")
 	private String relationShip;
 
-	@NotNull(message = "marital_status is mandatory")
+	@NotNull(message = "qualification is mandatory")
+	@Column(name="qualification")
 	private String qualification;
 
 	@NotNull(message = "marital_status is mandatory")
+	@Column(name="marital_status")
 	private String marital_status;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -57,15 +66,14 @@ public class MemberEntity {
 	}
 
 	
-
 	public MemberEntity(@Min(1) int id,
 			@Size(min = 1, max = 32, message = "firstName length cannot be more than 32") @NotNull(message = "firstName is mandatory") String firstName,
 			@Size(min = 1, max = 32, message = "lastName length cannot be more than 32") @NotNull(message = "lastName is mandatory") String lastName,
-			@NotNull(message = "DOB is mandatory") LocalDate dOB,
+			@Past @NotNull(message = "DOB is mandatory") LocalDate dOB,
 			@NotNull(message = "gender is mandatory") String gender,
 			@NotNull(message = "relationShip is mandatory") String relationShip,
-			@NotNull(message = "marital_status is mandatory") String qualification,
-			@NotNull(message = "marital_status is mandatory") String marital_status) {
+			@NotNull(message = "qualification is mandatory") String qualification,
+			@NotNull(message = "marital_status is mandatory") String marital_status, AddressEntity addressEntity) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -75,11 +83,15 @@ public class MemberEntity {
 		this.relationShip = relationShip;
 		this.qualification = qualification;
 		this.marital_status = marital_status;
+		this.addressEntity = addressEntity;
 	}
 
 
+	public MemberEntity(int i, String string, String string2, LocalDate localDate, String string3, String string4,
+			String string5, String string6) {
+		// TODO Auto-generated constructor stub
+	}
 
-	
 
 	public int getId() {
 		return id;
@@ -137,17 +149,6 @@ public class MemberEntity {
 		this.addressEntity = addressEntity;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "MemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", DOB=" + DOB
-				+ ", gender=" + gender + ", relationShip=" + relationShip + ", qualification=" + qualification
-				+ ", marital_status=" + marital_status + "]";
-	}
-
-
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -169,7 +170,13 @@ public class MemberEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	
 
+
+	@Override
+	public String toString() {
+		return "MemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", DOB=" + DOB
+				+ ", gender=" + gender + ", relationShip=" + relationShip + ", qualification="
+				+ qualification + ", marital_status=" + marital_status + ", addressEntity=" + addressEntity + "]";
+	}
+	
 }

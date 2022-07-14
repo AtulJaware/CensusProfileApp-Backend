@@ -8,10 +8,13 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -25,9 +28,7 @@ import lombok.Data;
 public class UserEntity {
 	
 	@Id
-//	@SequenceGenerator(name="USER_SEQ_GEN", sequenceName="USER_SEQ_GEN", allocationSize=1)
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="USER_SEQ_GEN")
-	@Min(1)
+	@GeneratedValue
 	private int id;
 	
 	@Size(min = 1, max = 32,message="firstName length cannot be more than 32")
