@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.AddressEntity;
+import com.project.CensusProfiling.Entity.Address;
 import com.project.CensusProfiling.Exception.AddressAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AddressNotFoundException;
 import com.project.CensusProfiling.Repository.IAddressRepo;
@@ -22,14 +22,14 @@ public class AddressServiceImpl implements IAddressService{
 	private IAddressRepo iAddressRepo;
 	
 	@Override
-	public List<AddressEntity> getAllAddresss() {
+	public List<Address> getAllAddresss() {
 		// TODO Auto-generated method stub
 		return iAddressRepo.findAll();
 	}
 
 	@Override
-	public Optional<AddressEntity> getAddress(int id) throws AddressNotFoundException {
-		Optional<AddressEntity> addressData = iAddressRepo.findById(id);
+	public Optional<Address> getAddress(int id) throws AddressNotFoundException {
+		Optional<Address> addressData = iAddressRepo.findById(id);
 		if(!addressData.isEmpty()) {
 			return iAddressRepo.findById(id);
 		}
@@ -40,20 +40,20 @@ public class AddressServiceImpl implements IAddressService{
 	}
 
 	@Override
-	public AddressEntity addAddress(AddressEntity addressEntity) throws AddressAlreadyExistsException {
-		Optional<AddressEntity> addressData = iAddressRepo.findById(addressEntity.getId());
+	public Address addAddress(Address address) throws AddressAlreadyExistsException {
+		Optional<Address> addressData = iAddressRepo.findById(address.getId());
 		if(addressData.isEmpty()) {
-			return iAddressRepo.save(addressEntity);
+			return iAddressRepo.save(address);
 		}
 		else {
 			LOGGER.error("Address already Found in addAddress");
-			throw new AddressAlreadyExistsException("Address already exists with id "+addressEntity.getId());
+			throw new AddressAlreadyExistsException("Address already exists with id "+address.getId());
 		}
 	}
 
 	@Override
-	public Optional<AddressEntity> deleteAddress(int id) throws AddressNotFoundException {
-		Optional<AddressEntity> addressData = iAddressRepo.findById(id);
+	public Optional<Address> deleteAddress(int id) throws AddressNotFoundException {
+		Optional<Address> addressData = iAddressRepo.findById(id);
 		if(!addressData.isEmpty()) {
 			iAddressRepo.deleteById(id);
 			return addressData;
@@ -65,11 +65,11 @@ public class AddressServiceImpl implements IAddressService{
 	}
 
 	@Override
-	public AddressEntity updateAddress(int id, AddressEntity addressEntity) throws AddressNotFoundException {
-		Optional<AddressEntity> addressData = iAddressRepo.findById(id);
+	public Address updateAddress(int id, Address address) throws AddressNotFoundException {
+		Optional<Address> addressData = iAddressRepo.findById(id);
 		if(!addressData.isEmpty()) {
-			addressEntity.setId(id);
-			return iAddressRepo.save(addressEntity);
+			address.setId(id);
+			return iAddressRepo.save(address);
 		}
 		else {
 			LOGGER.error("Address Not Found in updateAddress");

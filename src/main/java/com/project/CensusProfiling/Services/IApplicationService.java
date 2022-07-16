@@ -3,20 +3,20 @@ package com.project.CensusProfiling.Services;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.CensusProfiling.Entity.ApplicationEntity;
+import com.project.CensusProfiling.Entity.Application;
 import com.project.CensusProfiling.Exception.ApplicationAlreadyExistsException;
 import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 
 public interface IApplicationService {
 	
-	public List<ApplicationEntity> getAllApplications();
+	public List<Application> getAllApplications();
 	
-	public Optional<ApplicationEntity> getApplication(int id) throws ApplicationNotFoundException;
+	public Optional<Application> getApplication(int id) throws ApplicationNotFoundException;
 	
-	public ApplicationEntity addApplication(ApplicationEntity  applicationEntity) throws ApplicationAlreadyExistsException;
+	public Application addApplication(Application  application) throws ApplicationAlreadyExistsException;
 	
-	public Optional<ApplicationEntity> deleteApplication(int id) throws ApplicationNotFoundException;
+	public Optional<Application> deleteApplication(int id) throws ApplicationNotFoundException;
 	
-	public ApplicationEntity updateApplication(int id, ApplicationEntity applicationEntity) throws ApplicationNotFoundException;
+	public Application updateApplication(int id, Application application) throws ApplicationNotFoundException;
 
 }

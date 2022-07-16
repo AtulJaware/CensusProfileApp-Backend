@@ -5,20 +5,24 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.AdminEntity;
+import com.project.CensusProfiling.Entity.Admin;
 import com.project.CensusProfiling.Exception.AdminAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AdminNotFoundException;
+import com.project.CensusProfiling.dto.RegRespDto;
+import com.project.CensusProfiling.dto.RegisterDto;
 
 @Service
 public interface IAdminService {
 	
-	public List<AdminEntity> getAllAdmins();
+	public List<Admin> getAllAdmins();
 	
-	public Optional<AdminEntity> getAdmin(String id) throws AdminNotFoundException;
+	public Optional<Admin> getAdmin(int adminId) throws AdminNotFoundException;
 	
-	public AdminEntity addAdmin(AdminEntity  adminEntity) throws AdminAlreadyExistsException;
+	public Admin addAdmin(Admin  admin) throws AdminAlreadyExistsException;
 	
-	public Optional<AdminEntity> deleteAdmin(String id) throws AdminNotFoundException;
+	public Optional<Admin> deleteAdmin(int adminId) throws AdminNotFoundException;
 	
-	public AdminEntity updateAdmin(String id, AdminEntity adminEntity) throws AdminNotFoundException;
+	public Admin updateAdmin(int adminId, Admin admin) throws AdminNotFoundException;
+	
+	RegRespDto regAdmin(RegisterDto admin) throws AdminAlreadyExistsException;
 }

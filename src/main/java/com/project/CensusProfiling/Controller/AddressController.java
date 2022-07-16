@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.CensusProfiling.Entity.AddressEntity;
+import com.project.CensusProfiling.Entity.Address;
 import com.project.CensusProfiling.Exception.AddressAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AddressNotFoundException;
 import com.project.CensusProfiling.Services.IAddressService;
@@ -27,28 +27,28 @@ public class AddressController {
 	
 
 	@GetMapping("/address")
-	public List<AddressEntity> getAllAddresss(){
+	public List<Address> getAllAddresss(){
 		return iAddressService.getAllAddresss();
 	}
 	
 	@GetMapping("/address/{id}")
-	public Optional<AddressEntity> getAddress(@PathVariable int id) throws AddressNotFoundException{
+	public Optional<Address> getAddress(@PathVariable int id) throws AddressNotFoundException{
 		return iAddressService.getAddress(id);
 	}
 	
 	@PostMapping("/address")
-	public AddressEntity addAddress(@Valid @RequestBody AddressEntity  addressEntity) throws AddressAlreadyExistsException{
-		return iAddressService.addAddress(addressEntity);
+	public Address addAddress(@Valid @RequestBody Address  address) throws AddressAlreadyExistsException{
+		return iAddressService.addAddress(address);
 	}
 	
 	@DeleteMapping("/address/{id}")
-	public Optional<AddressEntity> deleteAddress(@PathVariable int id) throws AddressNotFoundException{
+	public Optional<Address> deleteAddress(@PathVariable int id) throws AddressNotFoundException{
 		return iAddressService.deleteAddress(id);
 	}
 
 	@PutMapping("/address/{id}")
-	public AddressEntity updateAddress(@PathVariable int id, @Valid @RequestBody AddressEntity addressEntity) throws AddressNotFoundException{
-		return iAddressService.updateAddress(id, addressEntity);
+	public Address updateAddress(@PathVariable int id, @Valid @RequestBody Address address) throws AddressNotFoundException{
+		return iAddressService.updateAddress(id, address);
 	}
 
 

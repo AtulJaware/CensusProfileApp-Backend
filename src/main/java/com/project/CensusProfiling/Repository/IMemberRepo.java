@@ -6,15 +6,15 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
+import com.project.CensusProfiling.Entity.Member;
 
 @Repository
-public interface IMemberRepo extends JpaRepository<MemberEntity,Integer>{
+public interface IMemberRepo extends JpaRepository<Member,Integer>{
 	
-	List<MemberEntity> findByFirstName(String fname);
+	List<Member> findByFirstName(String fname);
 	
-	List<MemberEntity> findByLastName(String lname);
+	List<Member> findByLastName(String lname);
 	
-	List<MemberEntity> findByDOB(LocalDate date);
+	List<Member> findByDOB(LocalDate date);
 	
 }

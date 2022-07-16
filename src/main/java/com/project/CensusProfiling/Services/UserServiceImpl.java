@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.ApplicationEntity;
-import com.project.CensusProfiling.Entity.UserEntity;
+import com.project.CensusProfiling.Entity.Application;
+import com.project.CensusProfiling.Entity.User;
 import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
@@ -27,17 +27,17 @@ public class UserServiceImpl implements IUserService{
 	private IUserRepo userRepo;
 	
 	@Override
-	public List<UserEntity> getAllUsers() {
+	public List<User> getAllUsers() {
 		LOGGER.info("inside getAllUsers");
 		return userRepo.findAll();
 	}
 	
 
 	@Override
-	public Optional<UserEntity> getUser(int id) throws UserNotFoundException {
+	public Optional<User> getUser(int id) throws UserNotFoundException {
 		
 		LOGGER.info("inside getUser");
-		Optional<UserEntity> userData = userRepo.findById(id);
+		Optional<User> userData = userRepo.findById(id);
 		if(!userData.isEmpty()) {
 			return userRepo.findById(id);
 		}
@@ -48,22 +48,22 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public UserEntity addUser(UserEntity userEntity) throws UserAlreadyExistsException {
+	public User addUser(User user) throws UserAlreadyExistsException {
 		LOGGER.info("inside addUser");
-		Optional<UserEntity> userData = userRepo.findById(userEntity.getId());
+		Optional<User> userData = userRepo.findById(user.getId());
 		if(userData.isEmpty()) {
-			return userRepo.save(userEntity);
+			return userRepo.save(user);
 		}
 		else {
 			LOGGER.error("User already Found in addUser");
-			throw new UserAlreadyExistsException("User Already Exists with id "+userEntity.getId());
+			throw new UserAlreadyExistsException("User Already Exists with id "+user.getId());
 		}
 	}
 
 	@Override
-	public Optional<UserEntity> deleteUser(int id) throws UserNotFoundException {
+	public Optional<User> deleteUser(int id) throws UserNotFoundException {
 		LOGGER.info("inside deleteUser");
-		Optional<UserEntity> userData = userRepo.findById(id);
+		Optional<User> userData = userRepo.findById(id);
 		if(!userData.isEmpty()) {
 			userRepo.deleteById(id);
 			return userData;
@@ -75,12 +75,12 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public UserEntity updateUser(int id, UserEntity userEntity) throws UserNotFoundException {
+	public User updateUser(int id, User user) throws UserNotFoundException {
 		LOGGER.info("inside updateUser");
-		Optional<UserEntity> userData = userRepo.findById(id);
+		Optional<User> userData = userRepo.findById(id);
 		if(!userData.isEmpty()) {
-			userEntity.setId(id);
-			return userRepo.save(userEntity);
+			user.setId(id);
+			return userRepo.save(user);
 		}
 		else {
 			LOGGER.error("User Not Found in updateUser");
@@ -91,10 +91,10 @@ public class UserServiceImpl implements IUserService{
 	@Autowired IApplicationRepo iApplicationRepo;
 	
 	@Override
-	public Optional<UserEntity> findByApplicationId(int id) throws Exception {
+	public Optional<User> findByApplicationId(int id) throws Exception {
 		
 		try {
-			Optional<ApplicationEntity> application = iApplicationRepo.findById(id);
+			Optional<Application> application = iApplicationRepo.findById(id);
 			return userRepo.findById(application.get().getUser_id());
 		}
 		catch(Exception e) {
@@ -104,13 +104,13 @@ public class UserServiceImpl implements IUserService{
 
 
 	@Override
-	public List<UserEntity> findByApplicationStatus(String status) throws Exception {
-		List<UserEntity> userList = new ArrayList<>();
+	public List<User> findByApplicationStatus(String status) throws Exception {
+		List<User> userList = new ArrayList<>();
 		try {
-			List<ApplicationEntity> applications = iApplicationRepo.findByStatus(status);
-			for(ApplicationEntity application:applications) {
+			List<Application> applications = iApplicationRepo.findByStatus(status);
+			for(Application application:applications) {
 				try {
-					Optional<UserEntity> user = userRepo.findById(application.getUser_id());
+					Optional<User> user = userRepo.findById(application.getUser_id());
 					userList.add(user.get());
 				}
 				catch(Exception e) {

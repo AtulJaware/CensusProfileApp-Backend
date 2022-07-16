@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
+import com.project.CensusProfiling.Entity.Member;
 import com.project.CensusProfiling.Exception.MemberAlreadyExistsException;
 import com.project.CensusProfiling.Exception.MemberNotFoundException;
 import com.project.CensusProfiling.Services.IMemberService;
@@ -26,35 +26,35 @@ public class MemberTests {
 	@Test
 	void addMemberTest() throws MemberAlreadyExistsException {
 		LocalDate localDate = LocalDate.of( 2012 , 12 , 7 );
-		MemberEntity memberEntity = new MemberEntity(1,"name1","name2",localDate,"male","brother","Graduated","single");
-		when(iMemberService.addMember(memberEntity)).thenReturn(memberEntity);
-		assertEquals(iMemberService.addMember(memberEntity),memberEntity);
+		Member member = new Member(1,"name1","name2",localDate,"male","brother","Graduated","single");
+		when(iMemberService.addMember(member)).thenReturn(member);
+		assertEquals(iMemberService.addMember(member),member);
 	}
 	
 	@Test
 	void getMemberTest() throws MemberNotFoundException {
 		LocalDate localDate = LocalDate.of( 2012 , 12 , 7 );
-		MemberEntity memberEntity = new MemberEntity(1,"name1","name2",localDate,"male","brother","Graduated","single");
-		Optional<MemberEntity> OMemberEntity = Optional.of(memberEntity);
+		Member member = new Member(1,"name1","name2",localDate,"male","brother","Graduated","single");
+		Optional<Member> OMemberEntity = Optional.of(member);
 		when(iMemberService.getMember(1)).thenReturn(OMemberEntity);
-		assertEquals(iMemberService.getMember(1).get(),memberEntity);
+		assertEquals(iMemberService.getMember(1).get(),member);
 	}
 	
 	@Test
 	void updateMemberTest() throws MemberNotFoundException {
 		LocalDate localDate = LocalDate.of( 2012 , 12 , 7 );
-		MemberEntity memberEntity = new MemberEntity(1,"name1","name2",localDate,"male","brother","Graduated","single");
-		when(iMemberService.updateMember(1,memberEntity)).thenReturn(memberEntity);
-		assertEquals(iMemberService.updateMember(1,memberEntity),memberEntity);
+		Member member = new Member(1,"name1","name2",localDate,"male","brother","Graduated","single");
+		when(iMemberService.updateMember(1,member)).thenReturn(member);
+		assertEquals(iMemberService.updateMember(1,member),member);
 	}
 	
 	@Test
 	void deleteMemberTest() throws MemberNotFoundException {
 		LocalDate localDate = LocalDate.of( 2012 , 12 , 7 );
-		MemberEntity memberEntity = new MemberEntity(1,"name1","name2",localDate,"male","brother","Graduated","single");
-		Optional<MemberEntity> OMemberEntity = Optional.of(memberEntity);
+		Member member = new Member(1,"name1","name2",localDate,"male","brother","Graduated","single");
+		Optional<Member> OMemberEntity = Optional.of(member);
 		when(iMemberService.deleteMember(1)).thenReturn(OMemberEntity);
-		assertEquals(iMemberService.deleteMember(1).get(),memberEntity);
+		assertEquals(iMemberService.deleteMember(1).get(),member);
 	}
 
 }

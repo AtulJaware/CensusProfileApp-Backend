@@ -36,6 +36,7 @@ public class AllExceptionHandler {
 		MemberAlreadyExistsException.class,
 		LoginNotFoundException.class,
 		LoginAlreadyExistsException.class,
+		EmailNotFoundException.class,
 		AddressNotFoundException.class,
 		AddressAlreadyExistsException.class,
 		ApplicationNotFoundException.class,

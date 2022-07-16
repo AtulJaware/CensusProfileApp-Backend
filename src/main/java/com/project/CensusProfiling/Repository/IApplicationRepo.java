@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.CensusProfiling.Entity.ApplicationEntity;
+import com.project.CensusProfiling.Entity.Application;
 
 @Repository
-public interface IApplicationRepo extends JpaRepository<ApplicationEntity,Integer>{
+public interface IApplicationRepo extends JpaRepository<Application,Integer>{
 	
-	List<ApplicationEntity> findByStatus(String status);
+	List<Application> findByStatus(String status);
 	
 }

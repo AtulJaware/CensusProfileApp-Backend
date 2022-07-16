@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.AdminEntity;
+import com.project.CensusProfiling.Entity.Admin;
+import com.project.CensusProfiling.Entity.Login;
 import com.project.CensusProfiling.Exception.AdminAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AdminNotFoundException;
 import com.project.CensusProfiling.Repository.IAdminRepo;
+import com.project.CensusProfiling.Repository.ILoginRepo;
+import com.project.CensusProfiling.dto.RegRespDto;
+import com.project.CensusProfiling.dto.RegisterDto;
 
 @Service
 public class AdminServiceImpl implements IAdminService{
@@ -21,15 +25,18 @@ public class AdminServiceImpl implements IAdminService{
 	@Autowired
 	private IAdminRepo iAdminRepo;
 	
+	@Autowired
+	ILoginRepo loginRepo;
+	
 	@Override
-	public List<AdminEntity> getAllAdmins() {
+	public List<Admin> getAllAdmins() {
 		// TODO Auto-generated method stub
 		return iAdminRepo.findAll();
 	}
 
 	@Override
-	public Optional<AdminEntity> getAdmin(String id) throws AdminNotFoundException {
-		Optional<AdminEntity> adminData = iAdminRepo.findById(id);
+	public Optional<Admin> getAdmin(int id) throws AdminNotFoundException {
+		Optional<Admin> adminData = iAdminRepo.findById(id);
 		if(!adminData.isEmpty()) {
 			return iAdminRepo.findById(id);
 		}
@@ -40,20 +47,20 @@ public class AdminServiceImpl implements IAdminService{
 	}
 
 	@Override
-	public AdminEntity addAdmin(AdminEntity adminEntity) throws AdminAlreadyExistsException {
-		Optional<AdminEntity> adminData = iAdminRepo.findById(adminEntity.getEmail());
+	public Admin addAdmin(Admin admin) throws AdminAlreadyExistsException {
+		Optional<Admin> adminData = iAdminRepo.findById(admin.getAdminId());
 		if(adminData.isEmpty()) {
-			return iAdminRepo.save(adminEntity);
+			return iAdminRepo.save(admin);
 		}
 		else {
 			LOGGER.error("Admin already Found in addAdmin");
-			throw new AdminAlreadyExistsException("Admin already exists with id "+adminEntity.getEmail());
+			throw new AdminAlreadyExistsException("Admin already exists with id "+admin.getAdminId());
 		}
 	}
 
 	@Override
-	public Optional<AdminEntity> deleteAdmin(String id) throws AdminNotFoundException {
-		Optional<AdminEntity> adminData = iAdminRepo.findById(id);
+	public Optional<Admin> deleteAdmin(int id) throws AdminNotFoundException {
+		Optional<Admin> adminData = iAdminRepo.findById(id);
 		if(!adminData.isEmpty()) {
 			iAdminRepo.deleteById(id);
 			return adminData;
@@ -65,17 +72,56 @@ public class AdminServiceImpl implements IAdminService{
 	}
 
 	@Override
-	public AdminEntity updateAdmin(String id, AdminEntity adminEntity) throws AdminNotFoundException {
-		Optional<AdminEntity> adminData = iAdminRepo.findById(id);
-		if(!adminData.isEmpty()) {
-			adminEntity.setEmail(id);
-			return iAdminRepo.save(adminEntity);
+	public Admin updateAdmin(int adminId, Admin admin) throws AdminNotFoundException {
+		Optional<Admin> adminData = iAdminRepo.findById(adminId);
+		if(adminData.isPresent()) {
+			return iAdminRepo.save(admin);
 		}
 		else {
 			LOGGER.error("Admin Not Found in updateAdmin");
-			throw new AdminNotFoundException("Admin Not Found with id "+id);
+			throw new AdminNotFoundException("Admin Not Found with email "+ adminId);
 		}
 	}
 
+	@Override
+	public RegRespDto regAdmin(RegisterDto regDto) throws AdminAlreadyExistsException {
+		Optional<Login> loginOpt = loginRepo.findById(regDto.getEmail());
+		if(loginOpt.isPresent()) {
+			throw new AdminAlreadyExistsException("Given email address "+regDto.getEmail()+" present already! Choose different one");
+		}
+		
+		// Convert RegisterDto to Admin obj
+		// Create admin obj
+		Admin admin = new Admin();
+		
+		// Update admin obj details
+		admin.setAdminId(regDto.getAdminId());
+		admin.setName(regDto.getName());
+		admin.setContact(regDto.getContact());
+		
+		Login login = new Login();
+		login.setEmail(regDto.getEmail());
+		login.setPassword(regDto.getPassword());
+		login.setRole(regDto.getRole());
+		login.setLoggedIn(false);
+		
+		admin.setLogin(login);
+		
+		// Save admin obj in db
+		Admin newAdmin = iAdminRepo.save(admin);
+		
+		// convert Employee obj to RegRespDto obj
+		
+		RegRespDto resDto = new RegRespDto();
+		resDto.setAdminId(newAdmin.getAdminId());
+		resDto.setName(newAdmin.getName());
+		resDto.setContact(newAdmin.getContact());
+		resDto.setEmail(newAdmin.getLogin().getEmail());
+		resDto.setRole(newAdmin.getLogin().getRole());
+		resDto.setLoggedIn(newAdmin.getLogin().isLoggedIn());
+		
+		return resDto;
+		
+	}
 
 }

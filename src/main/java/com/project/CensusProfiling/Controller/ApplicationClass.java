@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.CensusProfiling.Entity.ApplicationEntity;
+import com.project.CensusProfiling.Entity.Application;
 import com.project.CensusProfiling.Exception.ApplicationAlreadyExistsException;
 import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 import com.project.CensusProfiling.Services.IApplicationService;
@@ -28,28 +28,28 @@ public class ApplicationClass {
 	
 
 	@GetMapping("/application")
-	public List<ApplicationEntity> getAllApplications(){
+	public List<Application> getAllApplications(){
 		return iApplicationService.getAllApplications();
 	}
 	
 	@GetMapping("/application/{id}")
-	public Optional<ApplicationEntity> getApplication(@PathVariable int id) throws ApplicationNotFoundException{
+	public Optional<Application> getApplication(@PathVariable int id) throws ApplicationNotFoundException{
 		return iApplicationService.getApplication(id);
 	}
 	
 	@PostMapping("/application")
-	public ApplicationEntity addApplication(@Valid @RequestBody ApplicationEntity  applicationEntity) throws ApplicationAlreadyExistsException{
-		return iApplicationService.addApplication(applicationEntity);
+	public Application addApplication(@Valid @RequestBody Application  application) throws ApplicationAlreadyExistsException{
+		return iApplicationService.addApplication(application);
 	}
 	
 	@DeleteMapping("/application/{id}")
-	public Optional<ApplicationEntity> deleteApplication(@PathVariable int id) throws ApplicationNotFoundException{
+	public Optional<Application> deleteApplication(@PathVariable int id) throws ApplicationNotFoundException{
 		return iApplicationService.deleteApplication(id);
 	}
 
 	@PutMapping("/application/{id}")
-	public ApplicationEntity updateApplication(@PathVariable int id, @Valid @RequestBody ApplicationEntity applicationEntity) throws ApplicationNotFoundException{
-		return iApplicationService.updateApplication(id, applicationEntity);
+	public Application updateApplication(@PathVariable int id, @Valid @RequestBody Application application) throws ApplicationNotFoundException{
+		return iApplicationService.updateApplication(id, application);
 	}
 
 

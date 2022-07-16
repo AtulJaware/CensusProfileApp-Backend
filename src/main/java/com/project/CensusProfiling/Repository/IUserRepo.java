@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.project.CensusProfiling.Entity.UserEntity;
+import com.project.CensusProfiling.Entity.User;
 
 @Repository
-public interface IUserRepo extends JpaRepository<UserEntity,Integer>{
+public interface IUserRepo extends JpaRepository<User,Integer>{
 	
 	
 }

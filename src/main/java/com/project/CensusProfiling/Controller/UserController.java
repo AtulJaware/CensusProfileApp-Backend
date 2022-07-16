@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
-import com.project.CensusProfiling.Entity.UserEntity;
+import com.project.CensusProfiling.Entity.Member;
+import com.project.CensusProfiling.Entity.User;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
 import com.project.CensusProfiling.Services.IMemberService;
@@ -34,52 +34,52 @@ public class UserController {
 	private IMemberService iMemberService;
 	
 	@GetMapping("/user")
-	public List<UserEntity> getAllUsers(){
+	public List<User> getAllUsers(){
 		return iUserService.getAllUsers();
 	}
 	
 	@GetMapping("/user/{id}")
-	public Optional<UserEntity> getUser(@PathVariable int id) throws UserNotFoundException{
+	public Optional<User> getUser(@PathVariable int id) throws UserNotFoundException{
 		return iUserService.getUser(id);
 	}
 	
 	@GetMapping("/getMemberByFirstName/{firstName}")
-	public List<MemberEntity> getByName(@PathVariable String firstName) throws UserNotFoundException{
+	public List<Member> getByName(@PathVariable String firstName) throws UserNotFoundException{
 		return iMemberService.findByFname(firstName);
 	}
 	
 	@GetMapping("/getMemberByLastName/{LastName}")
-	public List<MemberEntity> getUserByLname(@PathVariable String LastName) throws UserNotFoundException{
+	public List<Member> getUserByLname(@PathVariable String LastName) throws UserNotFoundException{
 		return iMemberService.findByLname(LastName);
 	}
 	
 	@GetMapping("/getMemberByDOB/{dob}")
-	public List<MemberEntity> getUserByDOB(@PathVariable String dob) throws UserNotFoundException{
+	public List<Member> getUserByDOB(@PathVariable String dob) throws UserNotFoundException{
 		return iMemberService.findByDob(LocalDate.parse(dob));
 	}
 	
 	@GetMapping("/getUserByApplicationId/{id}") 
-	public Optional<UserEntity> getUserByApplicationId(@PathVariable int id) throws Exception{
+	public Optional<User> getUserByApplicationId(@PathVariable int id) throws Exception{
 		return iUserService.findByApplicationId(id);
 	}
 	
 	@GetMapping("/getUserByApplicationStatus/{status}")
-	public List<UserEntity> getUserByApplicationStatus(@PathVariable String status) throws Exception{
+	public List<User> getUserByApplicationStatus(@PathVariable String status) throws Exception{
 		return iUserService.findByApplicationStatus(status);
 	}
 	
 	@PostMapping("/user")
-	public UserEntity addUser(@Valid @RequestBody UserEntity  userEntity) throws UserAlreadyExistsException{
-		return iUserService.addUser(userEntity);
+	public User addUser(@Valid @RequestBody User  user) throws UserAlreadyExistsException{
+		return iUserService.addUser(user);
 	}
 	
 	@DeleteMapping("/user/{id}")
-	public Optional<UserEntity> deleteUser(@PathVariable int id) throws UserNotFoundException{
+	public Optional<User> deleteUser(@PathVariable int id) throws UserNotFoundException{
 		return iUserService.deleteUser(id);
 	}
 
 	@PutMapping("/user/{id}")
-	public UserEntity updateUser(@PathVariable int id, @Valid @RequestBody UserEntity userEntity) throws UserNotFoundException{
-		return iUserService.updateUser(id, userEntity);
+	public User updateUser(@PathVariable int id, @Valid @RequestBody User user) throws UserNotFoundException{
+		return iUserService.updateUser(id, user);
 	}
 }

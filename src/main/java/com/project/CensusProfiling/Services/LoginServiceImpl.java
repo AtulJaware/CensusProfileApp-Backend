@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.LoginEntity;
+import com.project.CensusProfiling.Entity.Login;
+import com.project.CensusProfiling.Exception.EmailNotFoundException;
 import com.project.CensusProfiling.Exception.LoginAlreadyExistsException;
+import com.project.CensusProfiling.Exception.LoginInvalidCredentialsException;
 import com.project.CensusProfiling.Exception.LoginNotFoundException;
 import com.project.CensusProfiling.Repository.ILoginRepo;
+import com.project.CensusProfiling.dto.LoginDto;
+import com.project.CensusProfiling.dto.LoginRespDto;
 
 @Service
 public class LoginServiceImpl implements ILoginService{
@@ -22,14 +26,14 @@ public class LoginServiceImpl implements ILoginService{
 	private ILoginRepo iLoginRepo;
 
 	@Override
-	public List<LoginEntity> getAllLogins() {
+	public List<Login> getAllLogins() {
 		// TODO Auto-generated method stub
 		return iLoginRepo.findAll();
 	}
 
 	@Override
-	public Optional<LoginEntity> getLogin(String id) throws LoginNotFoundException {
-		Optional<LoginEntity> loginData = iLoginRepo.findById(id);
+	public Optional<Login> getLogin(String id) throws LoginNotFoundException {
+		Optional<Login> loginData = iLoginRepo.findById(id);
 		if(!loginData.isEmpty()) {
 			return iLoginRepo.findById(id);
 		}
@@ -40,20 +44,20 @@ public class LoginServiceImpl implements ILoginService{
 	}
 
 	@Override
-	public LoginEntity addLogin(LoginEntity loginEntity) throws LoginAlreadyExistsException {
-		Optional<LoginEntity> loginData = iLoginRepo.findById(loginEntity.getEmail());
+	public Login addLogin(Login login) throws LoginAlreadyExistsException {
+		Optional<Login> loginData = iLoginRepo.findById(login.getEmail());
 		if(loginData.isEmpty()) {
-			return iLoginRepo.save(loginEntity);
+			return iLoginRepo.save(login);
 		}
 		else {
 			LOGGER.error("Login already Found in addLogin");
-			throw new LoginAlreadyExistsException("Login Already Exists with id "+ loginEntity.getEmail());
+			throw new LoginAlreadyExistsException("Login Already Exists with id "+ login.getEmail());
 		}
 	}
 
 	@Override
-	public Optional<LoginEntity> deleteLogin(String id) throws LoginNotFoundException {
-		Optional<LoginEntity> loginData = iLoginRepo.findById(id);
+	public Optional<Login> deleteLogin(String id) throws LoginNotFoundException {
+		Optional<Login> loginData = iLoginRepo.findById(id);
 		if(!loginData.isEmpty()) {
 			iLoginRepo.deleteById(id);
 			return loginData;
@@ -65,16 +69,95 @@ public class LoginServiceImpl implements ILoginService{
 	}
 
 	@Override
-	public LoginEntity updateLogin(String id, LoginEntity loginEntity) throws LoginNotFoundException {
-		Optional<LoginEntity> loginData = iLoginRepo.findById(id);
+	public Login updateLogin(String id, Login login) throws LoginNotFoundException {
+		Optional<Login> loginData = iLoginRepo.findById(id);
 		if(!loginData.isEmpty()) {
-			loginEntity.setEmail(id);
-			return iLoginRepo.save(loginEntity);
+			login.setEmail(id);
+			return iLoginRepo.save(login);
 		}
 		else {
 			LOGGER.error("Login Not Found in updateLogin");
 			throw new LoginNotFoundException("Login Not Found with id "+id);
 		}
+	}
+
+	@Override
+	public Login login(Login credentials) {
+		// get login details from db
+				Optional<Login> dbLoginCred = iLoginRepo.findById(credentials.getEmail());
+
+				if (dbLoginCred.isPresent()) {
+					// compare db password with user provided password
+					// if password matching return credentials else throw exception
+					Login login = dbLoginCred.get();
+					if (login.getPassword().equals(credentials.getPassword())
+							&& login.getRole().equals(credentials.getRole())) {
+						login.setLoggedIn(true);
+						return iLoginRepo.save(login);
+						
+					} else {
+						throw new LoginInvalidCredentialsException("Invalid credentials!");
+					}
+				} else {
+					// throw exception if given email not present in the db.
+					throw new LoginInvalidCredentialsException("User not found with email: "+credentials.getEmail());
+				}
+	}
+
+	@Override
+	public LoginRespDto login(LoginDto loginDto) {
+		Optional<Login> dbLoginOpt = iLoginRepo.findById(loginDto.getEmail());
+
+		if (dbLoginOpt.isPresent()) {
+			// compare db password with user provided password
+			// if password matching return credentials else throw exception
+			Login login = dbLoginOpt.get();
+			if (login.getPassword().equals(loginDto.getPassword())
+					&& login.getRole().equals(loginDto.getRole())) {
+				
+				// if credentials matches, set loggedIn flag as true and save
+				login.setLoggedIn(true);
+				Login updatedLogin = iLoginRepo.save(login);
+				
+				// convert Login to LoginRespDto Obj
+				LoginRespDto resDto = new LoginRespDto();
+				resDto.setEmail(login.getEmail());
+				resDto.setRole(login.getRole());
+				resDto.setLoggedIn(login.isLoggedIn());
+				
+				return resDto;
+				
+			} else {
+				throw new LoginInvalidCredentialsException("Invalid credentials!");
+			}
+		} else {
+			// throw exception if given email not present in the db.
+			throw new LoginInvalidCredentialsException("User not found with email: "+loginDto.getEmail());
+		}
+	}
+
+	@Override
+	public LoginRespDto logout(String email) throws EmailNotFoundException {
+		Optional<Login> dbLoginOpt = iLoginRepo.findById(email);
+		if(dbLoginOpt.isPresent()) {
+			// update isLoggedIn flag as false and save
+			Login login = dbLoginOpt.get();
+			
+			// Update flag to false and save
+			login.setLoggedIn(false);
+			Login updatedLogin = iLoginRepo.save(login);
+			
+			// Convert Login obj to LoginRespDto
+			LoginRespDto resDto = new LoginRespDto();
+			
+			resDto.setLoggedIn(false);
+					
+			// return LoginRespDto obj
+			return resDto;
+		} else {
+			throw new EmailNotFoundException("User not found with email: "+email);
+		}
+		
 	}
 	
 	

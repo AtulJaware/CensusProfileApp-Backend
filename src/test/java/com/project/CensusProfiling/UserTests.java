@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.CensusProfiling.Entity.UserEntity;
+import com.project.CensusProfiling.Entity.User;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
 import com.project.CensusProfiling.Services.IUserService;
@@ -24,32 +24,32 @@ public class UserTests {
 
 	@Test
 	void addUserTest() throws UserAlreadyExistsException {
-		UserEntity userEntity = new UserEntity(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
-		when(iUserService.addUser(userEntity)).thenReturn(userEntity);
-		assertEquals(iUserService.addUser(userEntity),userEntity);
+		User user = new User(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
+		when(iUserService.addUser(user)).thenReturn(user);
+		assertEquals(iUserService.addUser(user),user);
 	}
 	
 	@Test
 	void getUserTest() throws UserNotFoundException {
-		UserEntity userEntity = new UserEntity(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
-		Optional<UserEntity> OUserEntity = Optional.of(userEntity);
+		User user = new User(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
+		Optional<User> OUserEntity = Optional.of(user);
 		when(iUserService.getUser(1)).thenReturn(OUserEntity);
-		assertEquals(iUserService.getUser(1).get(),userEntity);
+		assertEquals(iUserService.getUser(1).get(),user);
 	}
 	
 	@Test
 	void updateUserTest() throws UserNotFoundException {
-		UserEntity userEntity = new UserEntity(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
-		when(iUserService.updateUser(1,userEntity)).thenReturn(userEntity);
-		assertEquals(iUserService.updateUser(1,userEntity),userEntity);
+		User user = new User(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
+		when(iUserService.updateUser(1,user)).thenReturn(user);
+		assertEquals(iUserService.updateUser(1,user),user);
 	}
 	
 	@Test
 	void deleteUserTest() throws UserNotFoundException {
-		UserEntity userEntity = new UserEntity(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
-		Optional<UserEntity> OUserEntity = Optional.of(userEntity);
+		User user = new User(1,"name1","name2",LocalDate.parse("2022-12-12"),"qwerty@qaz.com","8790012308","qwerty");
+		Optional<User> OUserEntity = Optional.of(user);
 		when(iUserService.deleteUser(1)).thenReturn(OUserEntity);
-		assertEquals(iUserService.deleteUser(1).get(),userEntity);
+		assertEquals(iUserService.deleteUser(1).get(),user);
 	}
 
 }

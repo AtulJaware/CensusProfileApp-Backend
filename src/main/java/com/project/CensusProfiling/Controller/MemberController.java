@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
+import com.project.CensusProfiling.Entity.Member;
 import com.project.CensusProfiling.Exception.MemberAlreadyExistsException;
 import com.project.CensusProfiling.Exception.MemberNotFoundException;
 import com.project.CensusProfiling.Services.IMemberService;
@@ -31,30 +31,30 @@ public class MemberController {
 	// get all members
 	
 	@GetMapping("/member")
-	public List<MemberEntity> getAllMembers(){
+	public List<Member> getAllMembers(){
 		return iMemberService.getAllMembers();
 	}
 	// get member by id
 	@GetMapping("/member/{id}")
-	public Optional<MemberEntity> getMember(@PathVariable int id) throws MemberNotFoundException{
+	public Optional<Member> getMember(@PathVariable int id) throws MemberNotFoundException{
 		return iMemberService.getMember(id);
 	}
 	
 	@PostMapping("/member")
-	public MemberEntity addMember(@Valid @RequestBody MemberEntity  memberEntity) throws MemberAlreadyExistsException{
-		return iMemberService.addMember(memberEntity);
+	public Member addMember(@Valid @RequestBody Member  member) throws MemberAlreadyExistsException{
+		return iMemberService.addMember(member);
 	}
 	
 	// delete member by id
 	@DeleteMapping("/member/{id}")
-	public Optional<MemberEntity> deleteMember(@PathVariable int id) throws MemberNotFoundException{
+	public Optional<Member> deleteMember(@PathVariable int id) throws MemberNotFoundException{
 		return iMemberService.deleteMember(id);
 	}
 
 	// update member by id
 	@PutMapping("/member/{id}")
-	public MemberEntity updateMember(@PathVariable int id, @Valid @RequestBody MemberEntity memberEntity) throws MemberNotFoundException{
-		return iMemberService.updateMember(id, memberEntity);
+	public Member updateMember(@PathVariable int id, @Valid @RequestBody Member member) throws MemberNotFoundException{
+		return iMemberService.updateMember(id, member);
 	}
 
 }

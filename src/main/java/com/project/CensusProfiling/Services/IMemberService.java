@@ -6,26 +6,26 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
+import com.project.CensusProfiling.Entity.Member;
 import com.project.CensusProfiling.Exception.MemberAlreadyExistsException;
 import com.project.CensusProfiling.Exception.MemberNotFoundException;
 
 @Service
 public interface IMemberService {
 
-	public List<MemberEntity> getAllMembers();
+	public List<Member> getAllMembers();
 	
-	public Optional<MemberEntity> getMember(int id) throws MemberNotFoundException;
+	public Optional<Member> getMember(int id) throws MemberNotFoundException;
 	
-	public MemberEntity addMember(MemberEntity  memberEntity) throws MemberAlreadyExistsException;
+	public Member addMember(Member  member) throws MemberAlreadyExistsException;
 	
-	public Optional<MemberEntity> deleteMember(int id) throws MemberNotFoundException;
+	public Optional<Member> deleteMember(int id) throws MemberNotFoundException;
 	
-	public MemberEntity updateMember(int id, MemberEntity memberEntity) throws MemberNotFoundException;
+	public Member updateMember(int id, Member member) throws MemberNotFoundException;
 	
-	public List<MemberEntity> findByFname(String fname);
+	public List<Member> findByFname(String fname);
 	
-	public List<MemberEntity> findByLname(String lname);
+	public List<Member> findByLname(String lname);
 	
-	public List<MemberEntity> findByDob(LocalDate dob);
+	public List<Member> findByDob(LocalDate dob);
 }

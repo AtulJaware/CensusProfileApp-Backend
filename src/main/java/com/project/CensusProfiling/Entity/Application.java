@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -13,7 +12,7 @@ import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name="application_data")
-public class ApplicationEntity {
+public class Application {
 	
 	@Id
 	@SequenceGenerator(name="ADD_SEQ_GEN", sequenceName="ADD_SEQ_GEN", allocationSize=1)
@@ -27,11 +26,11 @@ public class ApplicationEntity {
 	private int  user_id;
 
 
-	public ApplicationEntity() {
+	public Application() {
 		super();
 	}
 
-	public ApplicationEntity(@Min(1) int id, @NotNull(message = "status is mandatory") String status,
+	public Application(@Min(1) int id, @NotNull(message = "status is mandatory") String status,
 			@Positive(message = "user_id should be greater than 0") int user_id) {
 		super();
 		this.id = id;

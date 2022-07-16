@@ -1,31 +1,24 @@
 package com.project.CensusProfiling.Entity;
 
 import java.time.LocalDate;
-import java.util.BitSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-
 @Entity
 @Table(name="user_data")
-public class UserEntity {
+public class User {
 	
 	@Id
 	@GeneratedValue
@@ -54,19 +47,19 @@ public class UserEntity {
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "applicationId", referencedColumnName = "id")
-	private ApplicationEntity application_entity;
+	private Application application_entity;
 	
-	@OneToMany(targetEntity = MemberEntity.class, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = Member.class, cascade = CascadeType.ALL)
 	@JoinColumn(name="user_fk",referencedColumnName="id")
-	private List<MemberEntity> member_list;	
+	private List<Member> member_list;	
 	
-	public UserEntity() {
+	public User() {
 		super();
 	}
 
 	
 
-	public UserEntity(@Min(1) int id,
+	public User(@Min(1) int id,
 			@Size(min = 1, max = 32, message = "firstName length cannot be more than 32") @NotNull(message = "firstName is mandatory") String firstName,
 			@Size(min = 1, max = 32, message = "lastName length cannot be more than 32") @NotNull(message = "lastName is mandatory") String lastName,
 			@NotNull(message = "DOB is mandatory") LocalDate dOB,
@@ -117,11 +110,11 @@ public class UserEntity {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<MemberEntity> getMember_list() {
+	public List<Member> getMember_list() {
 		return member_list;
 	}
 
-	public void setMember_list(List<MemberEntity> member_list) {
+	public void setMember_list(List<Member> member_list) {
 		this.member_list = member_list;
 	}
 
@@ -134,12 +127,12 @@ public class UserEntity {
 	}
 
 
-	public ApplicationEntity getApplication_entity() {
+	public Application getApplication_entity() {
 		return application_entity;
 	}
 
 
-	public void setApplication_entity(ApplicationEntity application_entity) {
+	public void setApplication_entity(Application application_entity) {
 		this.application_entity = application_entity;
 	}
 

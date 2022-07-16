@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.CensusProfiling.Entity.AddressEntity;
+import com.project.CensusProfiling.Entity.Address;
 import com.project.CensusProfiling.Exception.AddressAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AddressNotFoundException;
 import com.project.CensusProfiling.Services.IAddressService;
@@ -23,32 +23,32 @@ public class AddressTests {
 
 	@Test
 	void addAddressTest() throws AddressAlreadyExistsException {
-		AddressEntity addressEntity = new AddressEntity(1,"1-30/2","local","hyd","telangana","123654");
-		when(iAddressService.addAddress(addressEntity)).thenReturn(addressEntity);
-		assertEquals(iAddressService.addAddress(addressEntity),addressEntity);
+		Address address = new Address(1,"1-30/2","local","hyd","telangana","123654");
+		when(iAddressService.addAddress(address)).thenReturn(address);
+		assertEquals(iAddressService.addAddress(address),address);
 	}
 	
 	@Test
 	void getAddressTest() throws AddressNotFoundException {
-		AddressEntity addressEntity = new AddressEntity(1,"1-30/2","local","hyd","telangana","123654");
-		Optional<AddressEntity> OAddressEntity = Optional.of(addressEntity);
+		Address address = new Address(1,"1-30/2","local","hyd","telangana","123654");
+		Optional<Address> OAddressEntity = Optional.of(address);
 		when(iAddressService.getAddress(1)).thenReturn(OAddressEntity);
-		assertEquals(iAddressService.getAddress(1).get(),addressEntity);
+		assertEquals(iAddressService.getAddress(1).get(),address);
 	}
 	
 	@Test
 	void updateAddressTest() throws AddressNotFoundException {
-		AddressEntity addressEntity = new AddressEntity(1,"1-30/2","local","hyd","telangana","123654");
-		when(iAddressService.updateAddress(1,addressEntity)).thenReturn(addressEntity);
-		assertEquals(iAddressService.updateAddress(1,addressEntity),addressEntity);
+		Address address = new Address(1,"1-30/2","local","hyd","telangana","123654");
+		when(iAddressService.updateAddress(1,address)).thenReturn(address);
+		assertEquals(iAddressService.updateAddress(1,address),address);
 	}
 	
 	@Test
 	void deleteAddressTest() throws AddressNotFoundException {
-		AddressEntity addressEntity = new AddressEntity(1,"1-30/2","local","hyd","telangana","123654");
-		Optional<AddressEntity> OAddressEntity = Optional.of(addressEntity);
+		Address address = new Address(1,"1-30/2","local","hyd","telangana","123654");
+		Optional<Address> OAddressEntity = Optional.of(address);
 		when(iAddressService.deleteAddress(1)).thenReturn(OAddressEntity);
-		assertEquals(iAddressService.deleteAddress(1).get(),addressEntity);
+		assertEquals(iAddressService.deleteAddress(1).get(),address);
 	}
 
 }

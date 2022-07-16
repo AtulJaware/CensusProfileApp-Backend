@@ -6,11 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -20,7 +18,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="member_data")
-public class MemberEntity {
+public class Member {
 	@Id
 	@GeneratedValue
 	@Column(name="id")
@@ -59,21 +57,21 @@ public class MemberEntity {
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-	private AddressEntity addressEntity;
+	private Address address;
 	
-	public MemberEntity() {
+	public Member() {
 		super();
 	}
 
 	
-	public MemberEntity(@Min(1) int id,
+	public Member(@Min(1) int id,
 			@Size(min = 1, max = 32, message = "firstName length cannot be more than 32") @NotNull(message = "firstName is mandatory") String firstName,
 			@Size(min = 1, max = 32, message = "lastName length cannot be more than 32") @NotNull(message = "lastName is mandatory") String lastName,
 			@Past @NotNull(message = "DOB is mandatory") LocalDate dOB,
 			@NotNull(message = "gender is mandatory") String gender,
 			@NotNull(message = "relationShip is mandatory") String relationShip,
 			@NotNull(message = "qualification is mandatory") String qualification,
-			@NotNull(message = "marital_status is mandatory") String marital_status, AddressEntity addressEntity) {
+			@NotNull(message = "marital_status is mandatory") String marital_status, Address address) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -83,11 +81,11 @@ public class MemberEntity {
 		this.relationShip = relationShip;
 		this.qualification = qualification;
 		this.marital_status = marital_status;
-		this.addressEntity = addressEntity;
+		this.address = address;
 	}
 
 
-	public MemberEntity(int i, String string, String string2, LocalDate localDate, String string3, String string4,
+	public Member(int i, String string, String string2, LocalDate localDate, String string3, String string4,
 			String string5, String string6) {
 		// TODO Auto-generated constructor stub
 	}
@@ -141,12 +139,12 @@ public class MemberEntity {
 		this.marital_status = marital_status;
 	}
 
-	public AddressEntity getAddressEntity() {
-		return addressEntity;
+	public Address getAddressEntity() {
+		return address;
 	}
 
-	public void setAddressEntity(AddressEntity addressEntity) {
-		this.addressEntity = addressEntity;
+	public void setAddressEntity(Address address) {
+		this.address = address;
 	}
 
 	public String getFirstName() {
@@ -176,7 +174,7 @@ public class MemberEntity {
 	public String toString() {
 		return "MemberEntity [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", DOB=" + DOB
 				+ ", gender=" + gender + ", relationShip=" + relationShip + ", qualification="
-				+ qualification + ", marital_status=" + marital_status + ", addressEntity=" + addressEntity + "]";
+				+ qualification + ", marital_status=" + marital_status + ", addressEntity=" + address + "]";
 	}
 	
 }

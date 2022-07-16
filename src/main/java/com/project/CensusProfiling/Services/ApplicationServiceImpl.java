@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.ApplicationEntity;
+import com.project.CensusProfiling.Entity.Application;
 import com.project.CensusProfiling.Exception.ApplicationAlreadyExistsException;
 import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 import com.project.CensusProfiling.Repository.IApplicationRepo;
@@ -21,14 +21,14 @@ public class ApplicationServiceImpl implements IApplicationService{
 	private IApplicationRepo iApplicationRepo;
 	
 	@Override
-	public List<ApplicationEntity> getAllApplications() {
+	public List<Application> getAllApplications() {
 		// TODO Auto-generated method stub
 		return iApplicationRepo.findAll();
 	}
 
 	@Override
-	public Optional<ApplicationEntity> getApplication(int id) throws ApplicationNotFoundException {
-		Optional<ApplicationEntity> applicationData = iApplicationRepo.findById(id);
+	public Optional<Application> getApplication(int id) throws ApplicationNotFoundException {
+		Optional<Application> applicationData = iApplicationRepo.findById(id);
 		if(!applicationData.isEmpty()) {
 			return iApplicationRepo.findById(id);
 		}
@@ -39,20 +39,20 @@ public class ApplicationServiceImpl implements IApplicationService{
 	}
 
 	@Override
-	public ApplicationEntity addApplication(ApplicationEntity applicationEntity) throws ApplicationAlreadyExistsException {
-		Optional<ApplicationEntity> applicationData = iApplicationRepo.findById(applicationEntity.getId());
+	public Application addApplication(Application application) throws ApplicationAlreadyExistsException {
+		Optional<Application> applicationData = iApplicationRepo.findById(application.getId());
 		if(applicationData.isEmpty()) {
-			return iApplicationRepo.save(applicationEntity);
+			return iApplicationRepo.save(application);
 		}
 		else {
 			LOGGER.error("Application already Found in addApplication");
-			throw new ApplicationAlreadyExistsException("Application already exists with id "+applicationEntity.getId());
+			throw new ApplicationAlreadyExistsException("Application already exists with id "+application.getId());
 		}
 	}
 
 	@Override
-	public Optional<ApplicationEntity> deleteApplication(int id) throws ApplicationNotFoundException {
-		Optional<ApplicationEntity> applicationData = iApplicationRepo.findById(id);
+	public Optional<Application> deleteApplication(int id) throws ApplicationNotFoundException {
+		Optional<Application> applicationData = iApplicationRepo.findById(id);
 		if(!applicationData.isEmpty()) {
 			iApplicationRepo.deleteById(id);
 			return applicationData;
@@ -64,11 +64,11 @@ public class ApplicationServiceImpl implements IApplicationService{
 	}
 
 	@Override
-	public ApplicationEntity updateApplication(int id, ApplicationEntity applicationEntity) throws ApplicationNotFoundException {
-		Optional<ApplicationEntity> applicationData = iApplicationRepo.findById(id);
+	public Application updateApplication(int id, Application application) throws ApplicationNotFoundException {
+		Optional<Application> applicationData = iApplicationRepo.findById(id);
 		if(!applicationData.isEmpty()) {
-			applicationEntity.setId(id);
-			return iApplicationRepo.save(applicationEntity);
+			application.setId(id);
+			return iApplicationRepo.save(application);
 		}
 		else {
 			LOGGER.error("Application Not Found in updateApplication");

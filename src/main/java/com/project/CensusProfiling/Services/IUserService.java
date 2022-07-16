@@ -1,30 +1,29 @@
 package com.project.CensusProfiling.Services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.UserEntity;
+import com.project.CensusProfiling.Entity.User;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
 
 @Service
 public interface IUserService {
 	
-	public List<UserEntity> getAllUsers();
+	public List<User> getAllUsers();
 	
-	public Optional<UserEntity> getUser(int id) throws UserNotFoundException;
+	public Optional<User> getUser(int id) throws UserNotFoundException;
 	
-	public UserEntity addUser(UserEntity  userEntity) throws UserAlreadyExistsException;
+	public User addUser(User  user) throws UserAlreadyExistsException;
 	
-	public Optional<UserEntity> deleteUser(int id) throws UserNotFoundException;
+	public Optional<User> deleteUser(int id) throws UserNotFoundException;
 	
-	public UserEntity updateUser(int id, UserEntity userEntity) throws UserNotFoundException;
+	public User updateUser(int id, User user) throws UserNotFoundException;
 
-	public Optional<UserEntity> findByApplicationId(int id) throws Exception;
+	public Optional<User> findByApplicationId(int id) throws Exception;
 
-	public List<UserEntity> findByApplicationStatus(String status) throws Exception;
+	public List<User> findByApplicationStatus(String status) throws Exception;
 	
 }

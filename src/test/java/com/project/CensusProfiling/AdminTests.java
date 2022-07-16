@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.project.CensusProfiling.Entity.AdminEntity;
+import com.project.CensusProfiling.Entity.Admin;
 import com.project.CensusProfiling.Exception.AdminAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AdminNotFoundException;
 import com.project.CensusProfiling.Services.IAdminService;
@@ -23,32 +23,32 @@ public class AdminTests {
 
 	@Test
 	void addAdminTest() throws AdminAlreadyExistsException {
-		AdminEntity adminEntity = new AdminEntity("name1","7412589630","qaz@qaz.com","qwerty");
-		when(iAdminService.addAdmin(adminEntity)).thenReturn(adminEntity);
-		assertEquals(iAdminService.addAdmin(adminEntity),adminEntity);
+		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		when(iAdminService.addAdmin(admin)).thenReturn(admin);
+		assertEquals(iAdminService.addAdmin(admin),admin);
 	}
 	
 	@Test
 	void getAdminTest() throws AdminNotFoundException {
-		AdminEntity adminEntity = new AdminEntity("name1","7412589630","qaz@qaz.com","qwerty");
-		Optional<AdminEntity> OAdminEntity = Optional.of(adminEntity);
-		when(iAdminService.getAdmin("qaz@qaz.com")).thenReturn(OAdminEntity);
-		assertEquals(iAdminService.getAdmin("qaz@qaz.com").get(),adminEntity);
+		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Optional<Admin> OAdminEntity = Optional.of(admin);
+		when(iAdminService.getAdmin(1)).thenReturn(OAdminEntity);
+		assertEquals(iAdminService.getAdmin(1).get(),admin);
 	}
 	
 	@Test
 	void updateAdminTest() throws AdminNotFoundException {
-		AdminEntity adminEntity = new AdminEntity("name1","7412589630","qaz@qaz.com","qwerty");
-		when(iAdminService.updateAdmin("qaz@qaz.com",adminEntity)).thenReturn(adminEntity);
-		assertEquals(iAdminService.updateAdmin("qaz@qaz.com",adminEntity),adminEntity);
+		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		when(iAdminService.updateAdmin(1,admin)).thenReturn(admin);
+		assertEquals(iAdminService.updateAdmin(1,admin),admin);
 	}
 	
 	@Test
 	void deleteAdminTest() throws AdminNotFoundException {
-		AdminEntity adminEntity = new AdminEntity("name1","7412589630","qaz@qaz.com","qwerty");
-		Optional<AdminEntity> OAdminEntity = Optional.of(adminEntity);
-		when(iAdminService.deleteAdmin("qaz@qaz.com")).thenReturn(OAdminEntity);
-		assertEquals(iAdminService.deleteAdmin("qaz@qaz.com").get(),adminEntity);
+		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Optional<Admin> OAdminEntity = Optional.of(admin);
+		when(iAdminService.deleteAdmin(1)).thenReturn(OAdminEntity);
+		assertEquals(iAdminService.deleteAdmin(1).get(),admin);
 	}
 
 }

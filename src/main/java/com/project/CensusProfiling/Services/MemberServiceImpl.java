@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.CensusProfiling.Entity.MemberEntity;
+import com.project.CensusProfiling.Entity.Member;
 import com.project.CensusProfiling.Exception.MemberAlreadyExistsException;
 import com.project.CensusProfiling.Exception.MemberNotFoundException;
 import com.project.CensusProfiling.Repository.IMemberRepo;
@@ -22,14 +22,14 @@ public class MemberServiceImpl implements IMemberService{
 	private IMemberRepo iMemberRepo;
 	
 	@Override
-	public List<MemberEntity> getAllMembers() {
+	public List<Member> getAllMembers() {
 		// TODO Auto-generated method stub
 		return iMemberRepo.findAll();
 	}
 
 	@Override
-	public Optional<MemberEntity> getMember(int id) throws MemberNotFoundException {
-		Optional<MemberEntity> memberData = iMemberRepo.findById(id);
+	public Optional<Member> getMember(int id) throws MemberNotFoundException {
+		Optional<Member> memberData = iMemberRepo.findById(id);
 		if(!memberData.isEmpty()) {
 			return iMemberRepo.findById(id);
 		}
@@ -40,20 +40,20 @@ public class MemberServiceImpl implements IMemberService{
 	}
 
 	@Override
-	public MemberEntity addMember(MemberEntity memberEntity) throws MemberAlreadyExistsException {
-		Optional<MemberEntity> memberData = iMemberRepo.findById(memberEntity.getId());
+	public Member addMember(Member member) throws MemberAlreadyExistsException {
+		Optional<Member> memberData = iMemberRepo.findById(member.getId());
 		if(memberData.isEmpty()) {
-			return iMemberRepo.save(memberEntity);
+			return iMemberRepo.save(member);
 		}
 		else {
 			LOGGER.error("Member already Found in addMember");
-			throw new MemberAlreadyExistsException("Member already exists with id "+memberEntity.getId());
+			throw new MemberAlreadyExistsException("Member already exists with id "+member.getId());
 		}
 	}
 
 	@Override
-	public Optional<MemberEntity> deleteMember(int id) throws MemberNotFoundException {
-		Optional<MemberEntity> memberData = iMemberRepo.findById(id);
+	public Optional<Member> deleteMember(int id) throws MemberNotFoundException {
+		Optional<Member> memberData = iMemberRepo.findById(id);
 		if(!memberData.isEmpty()) {
 			iMemberRepo.deleteById(id);
 			return memberData;
@@ -65,11 +65,11 @@ public class MemberServiceImpl implements IMemberService{
 	}
 
 	@Override
-	public MemberEntity updateMember(int id, MemberEntity memberEntity) throws MemberNotFoundException {
-		Optional<MemberEntity> memberData = iMemberRepo.findById(id);
+	public Member updateMember(int id, Member member) throws MemberNotFoundException {
+		Optional<Member> memberData = iMemberRepo.findById(id);
 		if(!memberData.isEmpty()) {
-			memberEntity.setId(id);
-			return iMemberRepo.save(memberEntity);
+			member.setId(id);
+			return iMemberRepo.save(member);
 		}
 		else {
 			LOGGER.error("Member Not Found in updateMember");
@@ -78,17 +78,17 @@ public class MemberServiceImpl implements IMemberService{
 	}
 
 	@Override
-	public List<MemberEntity> findByFname(String fname) {
+	public List<Member> findByFname(String fname) {
 		return iMemberRepo.findByFirstName(fname);
 	}
 
 	@Override
-	public List<MemberEntity> findByLname(String lname) {
+	public List<Member> findByLname(String lname) {
 		return iMemberRepo.findByLastName(lname);
 	}
 
 	@Override
-	public List<MemberEntity> findByDob(LocalDate dob) {
+	public List<Member> findByDob(LocalDate dob) {
 		return iMemberRepo.findByDOB(dob);
 	}
 

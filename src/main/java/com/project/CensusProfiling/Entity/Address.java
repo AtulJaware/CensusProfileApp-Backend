@@ -3,9 +3,7 @@ package com.project.CensusProfiling.Entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -14,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="address_data")
-public class AddressEntity {
+public class Address {
 
 	@Id
 	@GeneratedValue
@@ -42,11 +40,11 @@ public class AddressEntity {
 	@Column(name="pincode")
 	private String pincode;
 	
-	public AddressEntity() {
+	public Address() {
 		super();
 	}
 
-	public AddressEntity(@Min(1) int id, @NotNull(message = "d_no is mandatory") String d_no,
+	public Address(@Min(1) int id, @NotNull(message = "d_no is mandatory") String d_no,
 			@NotNull(message = "street is mandatory") String street,
 			@NotNull(message = "city is mandatory") String city, @NotNull(message = "state is mandatory") String state,
 			@Size(min = 6, max = 6, message = "pincode should be of size 6") @NotNull(message = "pincode is mandatory") String pincode) {
