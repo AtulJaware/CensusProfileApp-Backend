@@ -14,8 +14,8 @@ import com.project.CensusProfiling.Exception.AdminAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AdminNotFoundException;
 import com.project.CensusProfiling.Repository.IAdminRepo;
 import com.project.CensusProfiling.Repository.ILoginRepo;
-import com.project.CensusProfiling.dto.RegRespDto;
-import com.project.CensusProfiling.dto.RegisterDto;
+import com.project.CensusProfiling.dto.AdminRegRespDto;
+import com.project.CensusProfiling.dto.AdminRegisterDto;
 
 @Service
 public class AdminServiceImpl implements IAdminService{
@@ -84,7 +84,7 @@ public class AdminServiceImpl implements IAdminService{
 	}
 
 	@Override
-	public RegRespDto regAdmin(RegisterDto regDto) throws AdminAlreadyExistsException {
+	public AdminRegRespDto regAdmin(AdminRegisterDto regDto) throws AdminAlreadyExistsException {
 		Optional<Login> loginOpt = loginRepo.findById(regDto.getEmail());
 		if(loginOpt.isPresent()) {
 			throw new AdminAlreadyExistsException("Given email address "+regDto.getEmail()+" present already! Choose different one");
@@ -110,9 +110,9 @@ public class AdminServiceImpl implements IAdminService{
 		// Save admin obj in db
 		Admin newAdmin = iAdminRepo.save(admin);
 		
-		// convert Employee obj to RegRespDto obj
+		// convert admin obj to AdminRegRespDto obj
 		
-		RegRespDto resDto = new RegRespDto();
+		AdminRegRespDto resDto = new AdminRegRespDto();
 		resDto.setAdminId(newAdmin.getAdminId());
 		resDto.setName(newAdmin.getName());
 		resDto.setContact(newAdmin.getContact());

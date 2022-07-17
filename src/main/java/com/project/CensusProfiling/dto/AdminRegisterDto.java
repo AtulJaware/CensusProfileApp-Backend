@@ -3,7 +3,7 @@ package com.project.CensusProfiling.dto;
 import lombok.Data;
 
 @Data
-public class RegisterDto {
+public class AdminRegisterDto {
 	
 	private int adminId;
 	private String name;

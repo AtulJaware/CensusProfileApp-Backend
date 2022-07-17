@@ -1,6 +1,4 @@
 package com.project.CensusProfiling.Services;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,14 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.project.CensusProfiling.Entity.Application;
+import com.project.CensusProfiling.Entity.Login;
 import com.project.CensusProfiling.Entity.User;
-import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
 import com.project.CensusProfiling.Repository.IApplicationRepo;
+import com.project.CensusProfiling.Repository.ILoginRepo;
 import com.project.CensusProfiling.Repository.IUserRepo;
+import com.project.CensusProfiling.dto.UserRegRespDto;
+import com.project.CensusProfiling.dto.UserRegisterDto;
 
 @Service
 public class UserServiceImpl implements IUserService{
@@ -25,6 +25,9 @@ public class UserServiceImpl implements IUserService{
 	
 	@Autowired
 	private IUserRepo userRepo;
+	
+	@Autowired
+	ILoginRepo loginRepo;
 	
 	@Override
 	public List<User> getAllUsers() {
@@ -50,13 +53,13 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public User addUser(User user) throws UserAlreadyExistsException {
 		LOGGER.info("inside addUser");
-		Optional<User> userData = userRepo.findById(user.getId());
+		Optional<User> userData = userRepo.findById(user.getUserId());
 		if(userData.isEmpty()) {
 			return userRepo.save(user);
 		}
 		else {
 			LOGGER.error("User already Found in addUser");
-			throw new UserAlreadyExistsException("User Already Exists with id "+user.getId());
+			throw new UserAlreadyExistsException("User Already Exists with id "+user.getUserId());
 		}
 	}
 
@@ -79,7 +82,7 @@ public class UserServiceImpl implements IUserService{
 		LOGGER.info("inside updateUser");
 		Optional<User> userData = userRepo.findById(id);
 		if(!userData.isEmpty()) {
-			user.setId(id);
+			user.setUserId(id);
 			return userRepo.save(user);
 		}
 		else {
@@ -124,6 +127,49 @@ public class UserServiceImpl implements IUserService{
 		return userList;
 	}
 
-
+	@Override
+	public UserRegRespDto regUser(UserRegisterDto regDto) throws UserAlreadyExistsException {
+		Optional<Login> loginOpt = loginRepo.findById(regDto.getEmail());
+		if(loginOpt.isPresent()) {
+			throw new UserAlreadyExistsException("Given email address "+regDto.getEmail()+" present already! Choose different one");
+		}
+		
+		// Convert RegisterDto to User obj
+		// Create user obj
+		User user = new User();
+		
+		// Update user obj details
+		user.setUserId(regDto.getUserId());
+		user.setFirstName(regDto.getFirstName());
+		user.setLastName(regDto.getLastName());
+		user.setDOB(regDto.getDOB());
+		user.setContactNo(regDto.getContactNo());
+		
+		Login login = new Login();
+		login.setEmail(regDto.getEmail());
+		login.setPassword(regDto.getPassword());
+		login.setRole(regDto.getRole());
+		login.setLoggedIn(false);
+		
+		user.setLogin(login);
+		
+		// Save user obj in db
+		User newUser = userRepo.save(user);
+		
+		// convert User obj to UserRegRespDto obj
+		
+		UserRegRespDto resDto = new UserRegRespDto();
+		resDto.setUserId(newUser.getUserId());
+		resDto.setFirstName(newUser.getFirstName());
+		resDto.setLastName(newUser.getLastName());
+		resDto.setContactNo(newUser.getContactNo());
+		resDto.setDOB(newUser.getDOB());
+		resDto.setEmail(newUser.getLogin().getEmail());
+		resDto.setRole(newUser.getLogin().getRole());
+		resDto.setLoggedIn(newUser.getLogin().isLoggedIn());
+		
+		return resDto;
+		
+	}
 
 }

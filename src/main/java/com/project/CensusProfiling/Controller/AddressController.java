@@ -26,7 +26,7 @@ public class AddressController {
 	private IAddressService iAddressService;
 	
 
-	@GetMapping("/address")
+	@GetMapping("/addresses")
 	public List<Address> getAllAddresss(){
 		return iAddressService.getAllAddresss();
 	}
@@ -36,17 +36,17 @@ public class AddressController {
 		return iAddressService.getAddress(id);
 	}
 	
-	@PostMapping("/address")
+	@PostMapping("/address/add")
 	public Address addAddress(@Valid @RequestBody Address  address) throws AddressAlreadyExistsException{
 		return iAddressService.addAddress(address);
 	}
 	
-	@DeleteMapping("/address/{id}")
+	@DeleteMapping("/address/delete/{id}")
 	public Optional<Address> deleteAddress(@PathVariable int id) throws AddressNotFoundException{
 		return iAddressService.deleteAddress(id);
 	}
 
-	@PutMapping("/address/{id}")
+	@PutMapping("/address/update/{id}")
 	public Address updateAddress(@PathVariable int id, @Valid @RequestBody Address address) throws AddressNotFoundException{
 		return iAddressService.updateAddress(id, address);
 	}

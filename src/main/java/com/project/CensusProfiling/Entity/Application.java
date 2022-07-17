@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity
-@Table(name="application_data")
+@Table(name="application")
 public class Application {
 	
 	@Id

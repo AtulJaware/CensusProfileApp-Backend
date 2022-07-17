@@ -30,29 +30,29 @@ public class MemberController {
 
 	// get all members
 	
-	@GetMapping("/member")
+	@GetMapping("/members")
 	public List<Member> getAllMembers(){
 		return iMemberService.getAllMembers();
 	}
 	// get member by id
-	@GetMapping("/member/{id}")
+	@GetMapping("/member/add/{id}")
 	public Optional<Member> getMember(@PathVariable int id) throws MemberNotFoundException{
 		return iMemberService.getMember(id);
 	}
 	
-	@PostMapping("/member")
+	@PostMapping("/member/add")
 	public Member addMember(@Valid @RequestBody Member  member) throws MemberAlreadyExistsException{
 		return iMemberService.addMember(member);
 	}
 	
 	// delete member by id
-	@DeleteMapping("/member/{id}")
+	@DeleteMapping("/member/delete/{id}")
 	public Optional<Member> deleteMember(@PathVariable int id) throws MemberNotFoundException{
 		return iMemberService.deleteMember(id);
 	}
 
 	// update member by id
-	@PutMapping("/member/{id}")
+	@PutMapping("/member/update/{id}")
 	public Member updateMember(@PathVariable int id, @Valid @RequestBody Member member) throws MemberNotFoundException{
 		return iMemberService.updateMember(id, member);
 	}

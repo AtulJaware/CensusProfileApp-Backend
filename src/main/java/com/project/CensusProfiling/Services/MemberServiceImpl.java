@@ -41,13 +41,13 @@ public class MemberServiceImpl implements IMemberService{
 
 	@Override
 	public Member addMember(Member member) throws MemberAlreadyExistsException {
-		Optional<Member> memberData = iMemberRepo.findById(member.getId());
+		Optional<Member> memberData = iMemberRepo.findById(member.getMemId());
 		if(memberData.isEmpty()) {
 			return iMemberRepo.save(member);
 		}
 		else {
 			LOGGER.error("Member already Found in addMember");
-			throw new MemberAlreadyExistsException("Member already exists with id "+member.getId());
+			throw new MemberAlreadyExistsException("Member already exists with id "+member.getMemId());
 		}
 	}
 
@@ -68,7 +68,7 @@ public class MemberServiceImpl implements IMemberService{
 	public Member updateMember(int id, Member member) throws MemberNotFoundException {
 		Optional<Member> memberData = iMemberRepo.findById(id);
 		if(!memberData.isEmpty()) {
-			member.setId(id);
+			member.setMemId(id);
 			return iMemberRepo.save(member);
 		}
 		else {

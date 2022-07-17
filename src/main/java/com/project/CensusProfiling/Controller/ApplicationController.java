@@ -20,14 +20,14 @@ import com.project.CensusProfiling.Exception.ApplicationNotFoundException;
 import com.project.CensusProfiling.Services.IApplicationService;
 
 @RestController
-public class ApplicationClass {
+public class ApplicationController {
 	
 
 	@Autowired
 	private IApplicationService iApplicationService;
 	
 
-	@GetMapping("/application")
+	@GetMapping("/applications")
 	public List<Application> getAllApplications(){
 		return iApplicationService.getAllApplications();
 	}
@@ -37,17 +37,17 @@ public class ApplicationClass {
 		return iApplicationService.getApplication(id);
 	}
 	
-	@PostMapping("/application")
+	@PostMapping("/application/add")
 	public Application addApplication(@Valid @RequestBody Application  application) throws ApplicationAlreadyExistsException{
 		return iApplicationService.addApplication(application);
 	}
 	
-	@DeleteMapping("/application/{id}")
+	@DeleteMapping("/application/delete/{id}")
 	public Optional<Application> deleteApplication(@PathVariable int id) throws ApplicationNotFoundException{
 		return iApplicationService.deleteApplication(id);
 	}
 
-	@PutMapping("/application/{id}")
+	@PutMapping("/application/update/{id}")
 	public Application updateApplication(@PathVariable int id, @Valid @RequestBody Application application) throws ApplicationNotFoundException{
 		return iApplicationService.updateApplication(id, application);
 	}

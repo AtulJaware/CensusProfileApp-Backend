@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="login_data")
+@Table(name="login")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Login {

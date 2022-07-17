@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.project.CensusProfiling.Entity.User;
 import com.project.CensusProfiling.Exception.UserAlreadyExistsException;
 import com.project.CensusProfiling.Exception.UserNotFoundException;
+import com.project.CensusProfiling.dto.UserRegRespDto;
+import com.project.CensusProfiling.dto.UserRegisterDto;
 
 @Service
 public interface IUserService {
@@ -25,5 +27,7 @@ public interface IUserService {
 	public Optional<User> findByApplicationId(int id) throws Exception;
 
 	public List<User> findByApplicationStatus(String status) throws Exception;
+
+	UserRegRespDto regUser(UserRegisterDto regDto) throws UserAlreadyExistsException;
 	
 }

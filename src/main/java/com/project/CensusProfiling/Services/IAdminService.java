@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.project.CensusProfiling.Entity.Admin;
 import com.project.CensusProfiling.Exception.AdminAlreadyExistsException;
 import com.project.CensusProfiling.Exception.AdminNotFoundException;
-import com.project.CensusProfiling.dto.RegRespDto;
-import com.project.CensusProfiling.dto.RegisterDto;
+import com.project.CensusProfiling.dto.AdminRegRespDto;
+import com.project.CensusProfiling.dto.AdminRegisterDto;
 
 @Service
 public interface IAdminService {
@@ -24,5 +24,5 @@ public interface IAdminService {
 	
 	public Admin updateAdmin(int adminId, Admin admin) throws AdminNotFoundException;
 	
-	RegRespDto regAdmin(RegisterDto admin) throws AdminAlreadyExistsException;
+	AdminRegRespDto regAdmin(AdminRegisterDto admin) throws AdminAlreadyExistsException;
 }

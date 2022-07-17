@@ -3,9 +3,11 @@ package com.project.CensusProfiling.Entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -15,13 +17,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@Table(name="admin_data")
+@Table(name="admin")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Admin {
 
 	@Id
-	@GeneratedValue
+	@SequenceGenerator(name="ADD_SEQ_GEN", sequenceName="ADD_SEQ_GEN", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ADD_SEQ_GEN")
 	private int adminId;
 	
 	@NotNull(message = "name is mandatory")

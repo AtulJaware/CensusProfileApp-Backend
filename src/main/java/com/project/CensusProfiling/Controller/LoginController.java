@@ -42,12 +42,12 @@ public class LoginController {
 		return iLoginService.getLogin(email);
 	}
 	
-	@DeleteMapping("/login/{email}")
+	@DeleteMapping("/login/delete/{email}")
 	public Optional<Login> deleteLogin(@PathVariable String email) throws LoginNotFoundException{
 		return iLoginService.deleteLogin(email);
 	}
 
-	@PutMapping("/login/{email}")
+	@PutMapping("/login/update/{email}")
 	public Login updateLogin(@PathVariable String email, @Valid @RequestBody Login login) throws LoginNotFoundException{
 		return iLoginService.updateLogin(email, login);
 	}
@@ -69,7 +69,4 @@ public class LoginController {
 		LoginRespDto resp = iLoginService.logout(email);
 		return new ResponseEntity<>(resp, HttpStatus.OK);
 	}
-	
-	
-
 }
