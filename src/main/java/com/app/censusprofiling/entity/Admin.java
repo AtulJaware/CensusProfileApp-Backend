@@ -38,7 +38,7 @@ public class Admin {
 		@JoinColumn(name = "email")
 		private Login login;
 
-		public Admin(int adminId2, String name2, String contact2, String string) {
+		public Admin(int adminId, String name, String contact) {
 			
 		}
 }

@@ -154,6 +154,12 @@ public class UserServiceImpl implements IUserService{
 		
 		user.setLogin(login);
 		
+		Application application = new Application();
+        application.setId(regDto.getId());
+        application.setStatus(regDto.getStatus());
+        application.setUser_id(regDto.getUserId());
+        user.setApplication_entity(application);
+        
 		// Save user obj in db
 		User newUser = userRepo.save(user);
 		
@@ -168,9 +174,24 @@ public class UserServiceImpl implements IUserService{
 		resDto.setEmail(newUser.getLogin().getEmail());
 		resDto.setRole(newUser.getLogin().getRole());
 		resDto.setLoggedIn(newUser.getLogin().isLoggedIn());
-		
+		resDto.setId(newUser.getApplication_entity().getId());
+        resDto.setStatus(newUser.getApplication_entity().getStatus());
+        resDto.setUser_id(newUser.getUserId());
+        
 		return resDto;
 		
+	}
+
+
+	@Override
+	public User getUserByEmail(String email) throws UserNotFoundException {
+		
+		User user = userRepo.getUserByEmail(email);
+		if(user==null) {
+			throw new UserNotFoundException("User Not Found with Email "+email);
+		}
+		else 
+			return userRepo.getUserByEmail(email);
 	}
 
 }

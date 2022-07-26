@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.censusprofiling.dto.MemberDto;
 import com.app.censusprofiling.entity.Member;
 import com.app.censusprofiling.exception.MemberAlreadyExistsException;
 import com.app.censusprofiling.exception.MemberNotFoundException;
@@ -35,12 +37,17 @@ public class MemberController {
 	}
 	// get member by id
 	@GetMapping("/member/{id}")
-	public Optional<Member> getMember(@PathVariable int id) throws MemberNotFoundException{
-		return iMemberService.getMember(id);
+	public MemberDto getMember(@PathVariable int id) throws MemberNotFoundException{
+		return iMemberService.getMemberDto(id);
 	}
 	
-	@PostMapping("/memberdto/add")
+	@PostMapping("/member/add")
 	public Member addMember(@Valid @RequestBody Member  member) throws MemberAlreadyExistsException{
+		return iMemberService.addMember(member);
+	}
+	
+	@PostMapping("/memberDto/add")
+	public Member addMember(@Valid @RequestBody MemberDto  member) throws MemberAlreadyExistsException{
 		return iMemberService.addMember(member);
 	}
 	

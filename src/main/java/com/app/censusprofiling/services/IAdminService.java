@@ -26,5 +26,5 @@ public interface IAdminService {
 	
 	AdminRegRespDto regAdmin(AdminRegisterDto admin) throws AdminAlreadyExistsException;
 
-	Admin getAdminByEmail(String email);
+	Admin getAdminByEmail(String email) throws AdminNotFoundException;
 }

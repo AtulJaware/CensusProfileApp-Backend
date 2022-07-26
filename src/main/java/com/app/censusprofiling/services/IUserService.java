@@ -28,6 +28,8 @@ public interface IUserService {
 
 	public List<User> findByApplicationStatus(String status) throws Exception;
 
+	User getUserByEmail(String email) throws UserNotFoundException;
+	
 	UserRegRespDto regUser(UserRegisterDto regDto) throws UserAlreadyExistsException;
 	
 }

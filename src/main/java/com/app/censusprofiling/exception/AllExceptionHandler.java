@@ -1,56 +1,167 @@
 package com.app.censusprofiling.exception;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.app.censusprofiling.entity.ErrorResponse;
 
 @ControllerAdvice
 public class AllExceptionHandler {
 	
-	@ExceptionHandler({
-		UserInvalidCredentialsException.class,
-		MemberInvalidCredentialsException.class,
-		LoginInvalidCredentialsException.class,
-		AddressInvalidCredentialsException.class,
-		ApplicationInvalidCredentialsException.class,
-		AdminInvalidCredentialsException.class
-		})
-	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-	    Map<String, String> errors = new HashMap<>();
-	    ex.getBindingResult().getAllErrors().forEach((error) -> {
-	        String fieldName = ((FieldError) error).getField();
-	        String errorMessage = error.getDefaultMessage();
-	        errors.put(fieldName, errorMessage);
-	    });
-	    return errors;
+	@ExceptionHandler(MemberNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(MemberNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
 	}
 	
-	@ExceptionHandler({
-		UserNotFoundException.class,
-		UserAlreadyExistsException.class,
-		MemberNotFoundException.class,
-		MemberAlreadyExistsException.class,
-		LoginNotFoundException.class,
-		LoginAlreadyExistsException.class,
-		EmailNotFoundException.class,
-		AddressNotFoundException.class,
-		AddressAlreadyExistsException.class,
-		ApplicationNotFoundException.class,
-		ApplicationAlreadyExistsException.class,
-		AdminNotFoundException.class,
-		AdminAlreadyExistsException.class,
-		Exception.class
-		})
-	public Map<String, String> handleAddressNotFoundException(Exception ex) {
-		System.out.println("i am here");
-	    Map<String, String> errors = new HashMap<>();
-	    errors.put("Error", ex.toString());
-	    errors.put("Message", ex.getMessage());
-	    return errors;
+	@ExceptionHandler(MemberAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(MemberAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //401 unauthorized
 	}
-
+	
+	@ExceptionHandler(LoginNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(LoginNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+	}
+	
+	@ExceptionHandler(LoginAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(LoginAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //401 unauthorized
+	}
+	
+	@ExceptionHandler(AddressNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(AddressNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+	}
+	
+	@ExceptionHandler(AddressAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(AddressAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //401 unauthorized
+	}
+	
+	@ExceptionHandler(ApplicationNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(ApplicationNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+	}
+	
+	@ExceptionHandler(ApplicationAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(ApplicationAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //401 unauthorized
+	}
+	
+	@ExceptionHandler(AdminNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(AdminNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  // 404 not found
+	}
+	
+	@ExceptionHandler(AdminAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(AdminAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //401 unauthorized
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(UserNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+	}
+	
+	@ExceptionHandler(EmailNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleException(EmailNotFoundException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.NOT_FOUND.value()); // 404 not found
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);  //404 Not found
+	}
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public ResponseEntity<ErrorResponse> handleException(UserAlreadyExistsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.UNAUTHORIZED.value()); // 401 unauthorized
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  //404 Not found
+	}
+	
+	@ExceptionHandler(LoginInvalidCredentialsException.class)
+	public ResponseEntity<ErrorResponse> handleException(LoginInvalidCredentialsException exception) {
+		ErrorResponse error = new ErrorResponse();
+		
+		error.setStatus(HttpStatus.BAD_REQUEST.value()); // 400 Bad Request
+		error.setMessage(exception.getMessage()); //get message from exception
+		error.setTimeStamp(LocalDateTime.now()); // system time
+		
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);  // 400 Bad Request
+	}
 }

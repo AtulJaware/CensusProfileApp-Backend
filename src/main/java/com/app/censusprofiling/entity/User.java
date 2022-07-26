@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
 	@Id
-	@Positive (message = "user_id should be greater than 0")
+	@GeneratedValue
 	private int userId;
 	
 	@Size(min = 1, max = 32,message="firstName length cannot be more than 32")
@@ -56,7 +56,7 @@ public class User {
 	@JoinColumn(name="userId",referencedColumnName="userId")
 	private List<Member> member_list;	
 	
-public User(int i, String string, String string2, LocalDate parse, String string3, String string4, String string5) {
+public User(int userId, String firstName, String lastName, LocalDate DOB, String contactNo) {
 		
 	}
 }

@@ -14,4 +14,7 @@ public class UserRegRespDto {
 	private String email;
 	private boolean isLoggedIn ;
 	private String role;
+	private int id;
+	private String status;
+	private int  user_id;
 }

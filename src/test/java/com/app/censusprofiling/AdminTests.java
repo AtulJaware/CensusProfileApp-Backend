@@ -23,14 +23,14 @@ public class AdminTests {
 
 	@Test
 	void addAdminTest() throws AdminAlreadyExistsException {
-		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Admin admin = new Admin(1,"Atul","7412589630");
 		when(iAdminService.addAdmin(admin)).thenReturn(admin);
 		assertEquals(iAdminService.addAdmin(admin),admin);
 	}
 	
 	@Test
 	void getAdminTest() throws AdminNotFoundException {
-		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Admin admin = new Admin(1,"Atul","7412589630");
 		Optional<Admin> OAdminEntity = Optional.of(admin);
 		when(iAdminService.getAdmin(1)).thenReturn(OAdminEntity);
 		assertEquals(iAdminService.getAdmin(1).get(),admin);
@@ -38,14 +38,14 @@ public class AdminTests {
 	
 	@Test
 	void updateAdminTest() throws AdminNotFoundException {
-		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Admin admin = new Admin(1,"Atul","7412589630");
 		when(iAdminService.updateAdmin(1,admin)).thenReturn(admin);
 		assertEquals(iAdminService.updateAdmin(1,admin),admin);
 	}
 	
 	@Test
 	void deleteAdminTest() throws AdminNotFoundException {
-		Admin admin = new Admin(1,"Atul","7412589630","qwerty");
+		Admin admin = new Admin(1,"Atul","7412589630");
 		Optional<Admin> OAdminEntity = Optional.of(admin);
 		when(iAdminService.deleteAdmin(1)).thenReturn(OAdminEntity);
 		assertEquals(iAdminService.deleteAdmin(1).get(),admin);

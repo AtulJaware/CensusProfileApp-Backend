@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import com.app.censusprofiling.entity.Member;
 import com.app.censusprofiling.exception.MemberAlreadyExistsException;
 import com.app.censusprofiling.exception.MemberNotFoundException;

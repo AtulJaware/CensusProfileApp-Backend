@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +27,7 @@ public class Application {
 	@NotNull(message = "status is mandatory")
 	private String status="Pending";
 	
-	//User user;
-	@Positive (message = "user_id should be greater than 0")
+
 	private int  user_id;
 
 }

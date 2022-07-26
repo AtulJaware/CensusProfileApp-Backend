@@ -70,7 +70,7 @@ public class Member {
 	private Address address;
 	
 	
-	public Member(int i, String string, String string2, LocalDate localDate, String string3, String string4,
-			String string5, String string6) {
+	public Member(int id, String firstName, String lastName, LocalDate localDate, String gender, String relationship,
+			String qualification, String marital_status) {
 	}
 }

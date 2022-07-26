@@ -27,7 +27,7 @@ public class LoginServiceImpl implements ILoginService{
 
 	@Override
 	public List<Login> getAllLogins() {
-		// TODO Auto-generated method stub
+		
 		return iLoginRepo.findAll();
 	}
 

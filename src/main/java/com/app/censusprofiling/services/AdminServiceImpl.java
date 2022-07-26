@@ -125,7 +125,7 @@ public class AdminServiceImpl implements IAdminService{
 	}
 	
 	@Override
-	public Admin getAdminByEmail(String email) {
+	public Admin getAdminByEmail(String email) throws AdminNotFoundException{
 		return iAdminRepo.getAdminByEmail(email);
 	}
 
