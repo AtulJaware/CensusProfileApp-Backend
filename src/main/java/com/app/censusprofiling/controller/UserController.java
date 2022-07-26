@@ -22,6 +22,7 @@ import com.app.censusprofiling.dto.UserRegRespDto;
 import com.app.censusprofiling.dto.UserRegisterDto;
 import com.app.censusprofiling.entity.Member;
 import com.app.censusprofiling.entity.User;
+import com.app.censusprofiling.exception.MemberNotFoundException;
 import com.app.censusprofiling.exception.UserAlreadyExistsException;
 import com.app.censusprofiling.exception.UserNotFoundException;
 import com.app.censusprofiling.services.IMemberService;
@@ -47,18 +48,24 @@ public class UserController {
 		return iUserService.getUser(id);
 	}
 	
+	@GetMapping("/user/email/{email}")
+	ResponseEntity<User> getEmpByEmail(@PathVariable("email") String email) throws UserNotFoundException {
+		User user = iUserService.getUserByEmail(email);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
 	@GetMapping("/member/firstName/{firstName}")
-	public List<Member> getByName(@PathVariable String firstName) throws UserNotFoundException{
+	public List<Member> getByName(@PathVariable String firstName) throws MemberNotFoundException{
 		return iMemberService.findByFname(firstName);
 	}
 	
 	@GetMapping("/member/lastName/{LastName}")
-	public List<Member> getUserByLname(@PathVariable String LastName) throws UserNotFoundException{
+	public List<Member> getUserByLname(@PathVariable String LastName) throws MemberNotFoundException{
 		return iMemberService.findByLname(LastName);
 	}
 	
 	@GetMapping("/member/DOB/{dob}")
-	public List<Member> getUserByDOB(@PathVariable String dob) throws UserNotFoundException{
+	public List<Member> getUserByDOB(@PathVariable String dob) throws MemberNotFoundException{
 		return iMemberService.findByDob(LocalDate.parse(dob));
 	}
 	
